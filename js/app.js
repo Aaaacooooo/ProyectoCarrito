@@ -1,23 +1,27 @@
 // Variables, debes hacer el querySelector adecuado
 
+// const carrito = document.getElementById('carrito'); //Busca el primer elemento cuyo id sea "carrito"
+// const listaCursos = document.getElementById('lista-cursos'); //Busca el primer elemento cuyo id sea "lista-cursos"
+// const contenedorCarrito = document.getElementById('tbody'); //Busca el primer elemento tbody dentro del elemento con id lista-carrito
+// const vaciarCarritoBtn = document.getElementById('vaciar-carrito'); //Busca el primer elemento cuyo id sea vaciar-carrito
+// const tarjetasCursos= document.getElementsByClassName('.curso'); //Busca todos los elementos cuya clase sea curso
+// let articulosCarrito = [];
+
 const carrito = document.querySelector('#carrito'); //Busca el primer elemento cuyo id sea "carrito"
 const listaCursos = document.querySelector('#lista-cursos'); //Busca el primer elemento cuyo id sea "lista-cursos"
-const contenedorCarrito = document.querySelector('#lista-carrito > tbody'); //Busca el primer elemento tbody dentro del elemento con id lista-carrito
+const contenedorCarrito = document.querySelector('#lista-carrito tbody'); //Busca el primer elemento tbody dentro del elemento con id lista-carrito
 const vaciarCarritoBtn = document.querySelector('#vaciar-carrito'); //Busca el primer elemento cuyo id sea vaciar-carrito
 const tarjetasCursos= document.querySelectorAll('.curso'); //Busca todos los elementos cuya clase sea curso
 let articulosCarrito = [];
 
 
 // Listeners
-
-console.log(listaCursos);
-console.log(contenedorCarrito);
-console.log(tarjetasCursos);
+cargarEventListeners();
 
 function cargarEventListeners() {
      // Dispara cuando se presiona "Agregar Carrito"
      listaCursos.addEventListener('click', agregarCurso);
-     console.log("PAsa por aqui");
+     
 
      // Cuando se elimina un curso del carrito
      carrito.addEventListener('click', eliminarCurso);
@@ -43,8 +47,9 @@ function agregarCurso(e) {
           const curso = e.target.parentElement.parentElement;
           // Enviamos el curso seleccionado para tomar sus datos
           leerDatosCurso(curso);
+          console.log("por aquí");
      }
-     console.log("por aquí");
+     
 }
 
 // Lee los datos del curso
@@ -53,9 +58,9 @@ function leerDatosCurso(curso) {
      console.log(curso);
      const infoCurso = {
           imagen: curso.querySelector('img').src, //La imagen del curso
-          titulo: curso.titulo, //el título del curso
-          precio: curso.precio, //el precio con el descuento ya aplicado
-          id: curso.id, //Vamos a buscar el data-id del curso, primero buca el elemento y luego accede al atributo
+          titulo: curso.querySelector('h4').textContent, //el título del curso
+          precio: curso.querySelector('.precio > span').textContent, //el precio con el descuento ya aplicado
+          id: curso.querySelector('a').getAttribute('data-id'), //Vamos a buscar el data-id del curso, primero buca el elemento y luego accede al atributo
           cantidad: 1
      }
      console.log(infoCurso.imagen)
