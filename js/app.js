@@ -11,8 +11,13 @@ const carrito = document.querySelector('#carrito'); //Busca el primer elemento c
 const listaCursos = document.querySelector('#lista-cursos'); //Busca el primer elemento cuyo id sea "lista-cursos"
 const contenedorCarrito = document.querySelector('#lista-carrito tbody'); //Busca el primer elemento tbody dentro del elemento con id lista-carrito
 const vaciarCarritoBtn = document.querySelector('#vaciar-carrito'); //Busca el primer elemento cuyo id sea vaciar-carrito
-const tarjetasCursos= document.querySelectorAll('.curso'); //Busca todos los elementos cuya clase sea curso
+const tarjetasCursos = document.querySelectorAll('.curso'); //Busca todos los elementos cuya clase sea curso
 let articulosCarrito = [];
+
+const autores = []; //array para almacenar los nombres de los autores
+// Itera sobre cada elemento con la clase "curso" y extrae el nombre del autor
+
+
 
 
 // Listeners
@@ -21,7 +26,7 @@ cargarEventListeners();
 function cargarEventListeners() {
      // Dispara cuando se presiona "Agregar Carrito"
      listaCursos.addEventListener('click', agregarCurso);
-     
+
 
      // Cuando se elimina un curso del carrito
      carrito.addEventListener('click', eliminarCurso);
@@ -32,7 +37,7 @@ function cargarEventListeners() {
 
      // NUEVO: Contenido cargado
      document.addEventListener('DOMContentLoaded', () => {
-          articulosCarrito = JSON.parse(localStorage.getItem('carrito') ) || []  ;
+          articulosCarrito = JSON.parse(localStorage.getItem('carrito')) || [];
           // console.log(articulosCarrito);
           carritoHTML();
      });
@@ -43,13 +48,13 @@ function cargarEventListeners() {
 function agregarCurso(e) {
      e.preventDefault();
      // Delegation para agregar-carrito
-     if(e.target.classList.contains('agregar-carrito')) {
+     if (e.target.classList.contains('agregar-carrito')) {
           const curso = e.target.parentElement.parentElement;
           // Enviamos el curso seleccionado para tomar sus datos
           leerDatosCurso(curso);
-          console.log("por aquí");
+
      }
-     
+
 }
 
 // Lee los datos del curso
@@ -61,43 +66,70 @@ function leerDatosCurso(curso) {
           titulo: curso.querySelector('h4').textContent, //el título del curso
           precio: curso.querySelector('.precio > span').textContent, //el precio con el descuento ya aplicado
           id: curso.querySelector('a').getAttribute('data-id'), //Vamos a buscar el data-id del curso, primero buca el elemento y luego accede al atributo
+          autor: curso.querySelector('a').getAttribute('data-autor'),
           cantidad: 1
      }
-     console.log(infoCurso.imagen)
+     console.log(infoCurso.autor) // Juan Pedro
+     //Ahora tengo que buscar la forma de buscar una variable con la que pueda acceder a todos los autores de todos los cursos
+     tarjetasCursos.forEach(curso => {
+          const autor = curso.querySelector('a').getAttribute('data-autor');
+          // Añade el nombre del autor al array si aún no está presente
+          if (!autores.includes(autor)) {
+               autores.push(autor);
+          }
+     });
+     // Ahora, el array 'autores' contiene todos los nombres de los autores de los cursos
+     console.log(autores, 'autores');
+     // // Lógica para aplicar estilos y ajustar el precio basado en el autor
+     // if (infoCurso.autor === 'Juan Pedro') {
+     //      curso.classList.add('borde-azul'); // Aplica el borde azul al curso
+     //      infoCurso.precio = (parseInt(infoCurso.precio) - 5) + ' €'; // Reduce el precio en 5€
+     // } else {
+     //      curso.classList.add('borde-verde'); // Aplica el borde verde a los cursos del mismo autor
+     // }
+
+     // if (infoCurso.autor === 'Juan Pedro') {
+     //      curso.style.border = '2px solid green'; // Aplica el borde verde a los cursos del autor "Juan Pedro"
+     //      infoCurso.precio = (parseInt(infoCurso.precio) - 5) + ' €'; // Reduce el precio en 5€
+     // }
+
+     curso.classList.add('borde-azul'); // Aplica el borde azul al curso
+     //Buscamos entre todos los cursos los que tengan el mismo autor al seleccionado
+     if (curso.autor === infoCurso.autor) {
+          tarjetasCursos.classList.add('borde-verde'); // Aplica el borde verde a los cursos del mismo autor
+          tarjetasCursos.precio = (parseInt(infoCurso.precio) - 5) + ' €'; // Reduce el precio en 5€
+     }
 
 
-     if( articulosCarrito.some( curso => curso.id === infoCurso.id ) ) { 
-          const cursos = articulosCarrito.map( curso => {
-               if( curso.id === infoCurso.id ) {
+     if (articulosCarrito.some(curso => curso.id === infoCurso.id)) {
+          const cursos = articulosCarrito.map(curso => {
+               if (curso.id === infoCurso.id) {
                     let cantidad = parseInt(curso.cantidad);
                     cantidad++
-                    curso.cantidad =  cantidad;
+                    curso.cantidad = cantidad;
                     return curso;
                } else {
                     return curso;
                }
           })
           articulosCarrito = [...cursos];
-     }  else {
+     } else {
           articulosCarrito = [...articulosCarrito, infoCurso];
      }
 
      console.log(articulosCarrito)
 
-     
-
-     // console.log(articulosCarrito)
      carritoHTML();
 }
 
 // Elimina el curso del carrito en el DOM
 function eliminarCurso(e) {
      e.preventDefault();
-     if(e.target.classList.contains('borrar-curso') ) {
+     if (e.target.classList.contains('borrar-curso')) {
           // e.target.parentElement.parentElement.remove();
           const curso = e.target.parentElement.parentElement;
           const cursoId = curso.querySelector('a').getAttribute('data-id');
-          
+
           // Eliminar del arreglo del carrito
           articulosCarrito = articulosCarrito.filter(curso => curso.id !== cursoId);
 
@@ -141,7 +173,7 @@ function sincronizarStorage() {
 // Elimina los cursos del carrito en el DOM
 function vaciarCarrito() {
      // forma rapida (recomendada)
-     while(contenedorCarrito.firstChild) {
+     while (contenedorCarrito.firstChild) {
           contenedorCarrito.removeChild(contenedorCarrito.firstChild);
      }
 }
