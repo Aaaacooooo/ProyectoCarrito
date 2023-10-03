@@ -75,35 +75,37 @@ function leerDatosCurso(curso) {
           autores = element.querySelector('.info-card p').textContent
           autor = infoCurso.autor
           if (autores === autor) {
-               element.classList.add('borde-verde')
-               
+
+               element.classList.add('borde-verde') // A esos les añadimos un borde verde
+               element.querySelector('.precio > span').classList.add('tachado') //Al precio anterior lo tachamos
+
+               newPrecio = document.createElement('p') // Creamos un elemento p
+               newPrecio.textContent = ('10') // le añadimos contenido
+
+               // element.querySelector('.precio > span').insertAdjacentElement('afterend', newPrecio)
+               element.querySelector('.precio > span').appendChild(newPrecio) // Lo colocamos después del anterior precio
+               console.log(element.querySelector('.precio > span'));
+
+               newPrecio.id = 'newPrecio'
+
+               descuento = document.createElement('p') //vamos a crear el elemento 'p' para el descuento
+               descuento.textContent = ('DESCUENTO!') //le damos un contenido
+               //element.querySelector('.card > img').insertAdjacentElement('beforebegin', descuento)
+               element.querySelector('.card > img').appendChild(descuento)
+               descuento.classList.add('fondo-descuento')
+
+               // Eliminar la clase 'tachado' del precio anterior
+               //newPrecio.style = ('text-decoration : none')
+               element.querySelector('#newPrecio').classList.add('destachado')
+               console.log(element.querySelector('#newPrecio'));
           }
+
      });
+
      curso.classList.remove('borde-verde')
      curso.classList.add('borde-azul')
 
 
-     // //Ahora, el array 'autores' contiene todos los nombres de los autores de los cursos
-     // console.log(autores, 'autores');
-     // // Lógica para aplicar estilos y ajustar el precio basado en el autor
-     // if (infoCurso.autor === 'Juan Pedro') {
-     //      curso.classList.add('borde-azul'); // Aplica el borde azul al curso
-          infoCurso.precio = (parseInt(infoCurso.precio) - 5) + ' €'; // Reduce el precio en 5€
-     // } else {
-     //      curso.classList.add('borde-verde'); // Aplica el borde verde a los cursos del mismo autor
-     // }
-
-     // if (infoCurso.autor === 'Juan Pedro') {
-     //      curso.style.border = '2px solid green'; // Aplica el borde verde a los cursos del autor "Juan Pedro"
-     //      infoCurso.precio = (parseInt(infoCurso.precio) - 5) + ' €'; // Reduce el precio en 5€
-     // }
-
-     // curso.classList.add('borde-azul'); // Aplica el borde azul al curso
-     // //Buscamos entre todos los cursos los que tengan el mismo autor al seleccionado
-     // if (curso.autor === infoCurso.autor) {
-     //      tarjetasCursos.classList.add('borde-verde'); // Aplica el borde verde a los cursos del mismo autor
-     //      tarjetasCursos.precio = (parseInt(infoCurso.precio) - 5) + ' €'; // Reduce el precio en 5€
-     // }
 
 
      if (articulosCarrito.some(curso => curso.id === infoCurso.id)) {

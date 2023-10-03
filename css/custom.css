@@ -188,3 +188,17 @@ text-decoration: none;
 .borde-verde {
     border: 2px solid green;
 }
+
+.tachado{
+    text-decoration: line-through;
+}
+
+.fondo-descuento{
+    background-color: red;
+    color: white;
+    position: absolute;
+}
+
+.destachado{
+    text-decoration: none !important;
+}
