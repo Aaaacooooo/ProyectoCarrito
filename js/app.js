@@ -184,3 +184,48 @@ function vaciarCarrito() {
           contenedorCarrito.removeChild(contenedorCarrito.firstChild);
      }
 }
+
+//                 -----------------------------------------------------
+//                --------------------- PRUEBAS -------------------------
+//                 -----------------------------------------------------
+
+const comprarCestaBtn = document.querySelector('#comprar-cesta'); // Selecciona el botón "Comprar Cesta"
+
+// Agrega un listener al botón "Comprar Cesta"
+comprarCestaBtn.addEventListener('click', () => {
+     // Obtiene los cursos seleccionados (que no tienen la clase 'borde-verde')
+     const cursosSeleccionados = Array.from(tarjetasCursos).filter(curso => !curso.classList.contains('borde-verde'));
+
+     // Elimina los cursos no seleccionados del carrito
+     articulosCarrito = articulosCarrito.filter(curso => cursosSeleccionados.some(selCurso => selCurso.dataset.id === curso.id));
+
+     // Actualiza la vista del carrito
+     carritoHTML();
+
+     // Calcula el precio total y muestra el botón "Pagar"
+     const precioTotal = calcularPrecioTotal();
+     mostrarPrecioTotal(precioTotal);
+     mostrarBotonPagar();
+});
+
+// Función para calcular el precio total de los cursos en el carrito
+function calcularPrecioTotal() {
+     return articulosCarrito.reduce((total, curso) => total + parseFloat(curso.precio) * curso.cantidad, 0);
+}
+
+// Función para mostrar el precio total en el DOM
+function mostrarPrecioTotal(precioTotal) {
+     const precioTotalElement = document.createElement('p');
+     precioTotalElement.textContent = `Precio Total: $${precioTotal.toFixed(2)}`;
+     contenedorCarrito.appendChild(precioTotalElement);
+}
+
+// Función para mostrar el botón "Pagar"
+function mostrarBotonPagar() {
+     const pagarBtn = document.createElement('button');
+     pagarBtn.textContent = 'Pagar';
+     pagarBtn.addEventListener('click', () => {
+          alert('Servicio temporalmente inactivo, inténtelo más tarde');
+     });
+     contenedorCarrito.appendChild(pagarBtn);
+}
