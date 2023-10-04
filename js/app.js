@@ -16,7 +16,46 @@ let articulosCarrito = [];
 
 
 
-console.log(tarjetasCursos)
+
+console.log(listaCursos); //div lista-cursos
+console.log(listaCursos.parentNode); // body
+console.log(listaCursos.parentNode.parentNode);// html
+
+console.log(listaCursos.parentElement); // body
+console.log(listaCursos.parentElement.parentElement); // html
+
+const row = listaCursos.parentElement.parentElement;
+
+console.log(row.children); // HTMLCollection(2) [head, body]
+console.log(row.childNodes); // NodeList(3) [head, text, body]
+
+const div_her = document.querySelector('.encabezado'); // h1 class="encabezado"
+console.log(div_her);
+console.log(div_her.nextElementSibling); // Primer hermano de h1 en este caso un div 
+console.log(div_her.nextElementSibling.nextElementSibling); // Segundo hermano de h1 otro div
+
+const row3 = div_her.nextElementSibling.nextElementSibling;
+console.log(row3.previousElementSibling); // Hermano anterior div
+console.log(row3.previousElementSibling.previousElementSibling); // 2 hermannos atras h1 
+
+console.log(' ');
+console.log(' ');
+
+console.log(document.querySelector('#lista-cursos'));
+console.log(document.querySelector('#lista-cursos :nth-child(1)')); // Primer hijo h1 de lista cursos
+console.log(document.querySelector('#lista-cursos :nth-child(2)')); // Segundo hijo primer div de lista cursos
+console.log(document.querySelector('#lista-cursos :nth-child(3)')); // Enttramos dentor de info-card y nos da su tercer hijo
+console.log(document.querySelector('#lista-cursos :nth-child(4)')); // Enttramos dentor de info-card y nos da su cuarto hijo
+
+console.log(' ');
+console.log(' ');
+
+console.log(document.querySelector('.info-card'));
+console.log(document.querySelector('.info-card :nth-child(1)')); // Primer hijo de info-card = h4
+console.log(document.querySelector('.info-card :nth-child(2)')); // Segundo hijo de info-card = p
+console.log(document.querySelector('.info-card :nth-child(3)')); // Tercer hijo de info-card = img
+console.log(document.querySelector('.info-card :nth-child(4)')); // Cuarto hijo de info-card = p
+
 
 // Listeners
 cargarEventListeners();
